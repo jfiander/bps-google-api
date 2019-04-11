@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bps-google-api (0.0.5)
+    bps-google-api (0.0.6)
       exp_retry (~> 0.0.8)
       fileutils (~> 1.2)
       google-api-client (~> 0.23.4)

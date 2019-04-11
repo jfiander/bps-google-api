@@ -21,9 +21,7 @@ module GoogleAPI
     end
 
     def root_path
-      path = self.class.root_path
-      FileUtils.mkdir_p(path)
-      path
+      self.class.root_path
     end
   end
 end
