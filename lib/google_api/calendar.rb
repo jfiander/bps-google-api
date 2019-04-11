@@ -2,10 +2,10 @@
 
 module GoogleAPI
   class Calendar < GoogleAPI::Base
-    include GoogleAPI::Concerns::ClearTestCalendar
+    include GoogleAPI::Concerns::Calendar::ClearTestCalendar
     include GoogleAPI::Concerns::Calendar::Permission
 
-    LAST_TOKEN_PATH = "#{Rails.root}/tmp/run/last_page_token"
+    LAST_TOKEN_PATH ||= "#{root_path}/tmp/run/last_page_token"
 
     def create(calendar_id, event_options = {})
       service.insert_event(calendar_id, event(event_options), conference_data_version: 1)

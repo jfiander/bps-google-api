@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI::Concerns
+module GoogleAPI::Concerns::Base
   module Authorization
     OOB_URI ||= 'urn:ietf:wg:oauth:2.0:oob'
     AUTH_SCOPES ||= [
@@ -9,6 +9,9 @@ module GoogleAPI::Concerns
     ].freeze
 
     def authorize!(refresh: false, reveal: false)
+      client_id_file
+      token_file
+
       auth = authorize(refresh: refresh)
       service.authorization = auth
       return true unless reveal
@@ -39,6 +42,7 @@ module GoogleAPI::Concerns
     end
 
     def auth_client_id
+      client_id_file
       Google::Auth::ClientId.from_hash(JSON.parse(File.read('config/keys/google_api_client.json')))
     end
 
@@ -61,7 +65,11 @@ module GoogleAPI::Concerns
     def store_key(path, key)
       return if File.exist?(path)
 
-      File.open(path, 'w+') do |f|
+      path = path.split('/')
+      file = path.pop
+      path = path.join('/')
+      FileUtils.mkdir_p(path)
+      File.open(File.join(path, file), 'w+') do |f|
         File.chmod(0600, f)
         block_given? ? yield(f) : f.write(key)
       end
@@ -69,7 +77,7 @@ module GoogleAPI::Concerns
 
     def client_id_file
       store_key(
-        File.join(Rails.root, 'config/keys/google_api_client.json'),
+        File.join(root_path, 'config/keys/google_api_client.json'),
         <<~KEY
           {"installed":{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","project_id":"charming-scarab-208718",
           "auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token",
@@ -81,7 +89,7 @@ module GoogleAPI::Concerns
 
     def token_file
       store_key(
-        File.join(Rails.root, 'config/keys/google_token.yaml'),
+        File.join(root_path, 'config/keys/google_token.yaml'),
         <<~KEY
           ---
           default: '{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","access_token":"#{ENV['GOOGLE_ACCESS_TOKEN']}",

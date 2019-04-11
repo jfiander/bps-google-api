@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.0.2'
+  s.version       = '0.0.3'
   s.date          = '2019-04-11'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'google-api-client', '~> 0.23.4'
   s.add_runtime_dependency 'exp_retry'
   s.add_runtime_dependency 'ruby-progressbar'
+  s.add_runtime_dependency 'fileutils'
 end

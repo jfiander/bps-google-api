@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    bps-google-api (0.0.2)
+    bps-google-api (0.0.3)
       exp_retry
+      fileutils
       google-api-client (~> 0.23.4)
       ruby-progressbar
 
@@ -16,6 +17,7 @@ GEM
     exp_retry (0.0.9)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
+    fileutils (1.2.0)
     google-api-client (0.23.9)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.5, < 0.7.0)
