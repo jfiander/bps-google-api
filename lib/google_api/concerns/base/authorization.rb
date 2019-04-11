@@ -65,14 +65,18 @@ module GoogleAPI::Concerns::Base
     def store_key(path, key)
       return if File.exist?(path)
 
+      ensure_file(path)
+      File.open(path, 'w+') do |f|
+        File.chmod(0600, f)
+        block_given? ? yield(f) : f.write(key)
+      end
+    end
+
+    def ensure_file(path)
       path = path.split('/')
       file = path.pop
       path = path.join('/')
       FileUtils.mkdir_p(path)
-      File.open(File.join(path, file), 'w+') do |f|
-        File.chmod(0600, f)
-        block_given? ? yield(f) : f.write(key)
-      end
     end
 
     def client_id_file
