@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 module GoogleAPI
+  require 'google_api/calendar/clear_test_calendar'
+
   class Calendar < GoogleAPI::Base
     include GoogleAPI::Calendar::ClearTestCalendar
 
     SERVICE_CLASS = Google::Apis::CalendarV3::CalendarService
-    LAST_TOKEN_PATH ||= Rails.root.join('tmp', 'run', 'last_page_token')
     VALID_EVENT_KEYS ||= %i[
       summary start end description location recurrence conference_data conference_data_version
     ].freeze
@@ -62,6 +63,11 @@ module GoogleAPI
     def date(date)
       key = date&.is_a?(String) ? :date : :date_time
       Google::Apis::CalendarV3::EventDateTime.new(key => date, time_zone: ENV['TZ'])
+    end
+
+    def last_token_path
+      path = %w[tmp run last_page_token]
+      defined?(Rails) ? Rails.root.join(*path) : File.join(*path)
     end
   end
 end

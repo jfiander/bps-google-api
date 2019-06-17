@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module GoogleAPI
-  class Calendar
+  class Calendar < GoogleAPI::Base
     module ClearTestCalendar
       def clear_test_calendar(page_token: nil, page_limit: 50)
         Google::Apis.logger.level = Logger::WARN
@@ -17,7 +17,7 @@ module GoogleAPI
     private
 
       def choose_page_token(page_token)
-        last_token = GoogleAPI::Calendar::LAST_TOKEN_PATH
+        last_token = last_token_path
         @page_token ||= File.read(last_token) if File.exist?(last_token)
         @page_token = page_token if page_token.present?
       end
@@ -47,10 +47,8 @@ module GoogleAPI
 
       def log_last_page_token
         puts "\n\n*** Last page token cleared: #{@page_token}"
-        File.open(GoogleAPI::Calendar::LAST_TOKEN_PATH, 'w+') do |f|
-          f.write(@page_token)
-        end
-        puts "\n*** Token stored in #{GoogleAPI::Calendar::LAST_TOKEN_PATH}"
+        File.open(last_token_path, 'w+') { |f| f.write(@page_token) }
+        puts "\n*** Token stored in #{last_token_path}"
       end
 
       def progress_bar(total)

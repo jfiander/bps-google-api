@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.1.1'
+  s.version       = '0.1.3'
   s.date          = '2019-06-15'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
