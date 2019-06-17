@@ -3,11 +3,12 @@
 module GoogleAPI
   class Calendar < GoogleAPI::Base
     module ClearTestCalendar
-      def clear_test_calendar(page_token: nil, page_limit: 50)
+      def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false)
+        @verbose = verbose
         Google::Apis.logger.level = Logger::WARN
         choose_page_token(page_token)
         loop_over_pages(ENV['GOOGLE_CALENDAR_ID_TEST'], page_limit: page_limit)
-        puts '*** Cleared all events!'
+        puts '*** Cleared all events!' if @verbose
       rescue Google::Apis::RateLimitError
         puts "\n\n*** Google::Apis::RateLimitError (Rate Limit Exceeded)"
       ensure
@@ -23,7 +24,7 @@ module GoogleAPI
       end
 
       def loop_over_pages(cal_id, page_limit: 50)
-        puts "*** Starting with page token: #{@page_token}" if @page_token.present?
+        puts "*** Starting with page token: #{@page_token}" if @verbose && @page_token.present?
 
         page_limit -= 1 while (@page_token = clear_page(cal_id)) && page_limit.positive?
       end
@@ -35,20 +36,20 @@ module GoogleAPI
       end
 
       def clear_events_from_page(cal_id, items)
-        puts "*** Page token: #{@page_token}"
-        pb = progress_bar(items.count)
+        puts "*** Page token: #{@page_token}" if @verbose
+        pb = progress_bar(items.count) if @verbose
         items&.each_with_index do |event, _index|
           ExpRetry.for(exception: Calendar::RETRIES) do
             delete(cal_id, event.id)
-            pb.increment
+            pb.increment if @verbose
           end
         end
       end
 
       def log_last_page_token
-        puts "\n\n*** Last page token cleared: #{@page_token}"
+        puts "\n\n*** Last page token cleared: #{@page_token}" if @verbose
         File.open(last_token_path, 'w+') { |f| f.write(@page_token) }
-        puts "\n*** Token stored in #{last_token_path}"
+        puts "\n*** Token stored in #{last_token_path}" if @verbose
       end
 
       def progress_bar(total)
