@@ -32,15 +32,15 @@ GOOGLE_ACCESS_TOKEN
 GOOGLE_REFRESH_TOKEN
 GOOGLE_AUTH_EXP
 
-GOOGLE_AUTH_SCOPE_CALENDAR
-GOOGLE_AUTH_SCOPE_GROUP
-
-GOOGLE_CALENDAR_ID_GEN
-GOOGLE_CALENDAR_ID_EDUC
 GOOGLE_CALENDAR_ID_TEST
+
+TZ # Timezone
 ```
 
 ## Usage
+
+If no configuration is available, `.new` will automatically run `.authorize!`
+and return a URL to generate an authorization token.
 
 ```ruby
 calendar = GoogleAPI::Calendar.new

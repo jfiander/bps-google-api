@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.0.6'
-  s.date          = '2019-04-11'
+  s.version       = '0.1.0'
+  s.date          = '2019-06-15'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
   s.homepage      = 'http://rubygems.org/gems/bps-google-api'
@@ -11,8 +13,8 @@ Gem::Specification.new do |s|
   s.require_paths = %w[lib]
   s.files         = `git ls-files`.split("\n")
 
-  s.add_runtime_dependency 'google-api-client', '~> 0.23.4'
   s.add_runtime_dependency 'exp_retry',         '~> 0.0.8'
-  s.add_runtime_dependency 'ruby-progressbar',  '~> 1.10'
   s.add_runtime_dependency 'fileutils',         '~> 1.2'
+  s.add_runtime_dependency 'google-api-client', '~> 0.23.4'
+  s.add_runtime_dependency 'ruby-progressbar',  '~> 1.10'
 end

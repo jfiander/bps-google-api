@@ -2,36 +2,34 @@
 
 module GoogleAPI
   class Group < GoogleAPI::Base
-    def initialize(id, auth: false)
+    SERVICE_CLASS = Google::Apis::AdminDirectoryV1::DirectoryService
+
+    def initialize(id, auth: true)
       @group_id = id
       super(auth: auth)
     end
 
     def get
-      service.get_group(@group_id)
+      call(:get_group, @group_id)
     end
 
     def members
-      service.list_members(@group_id)
+      call(:list_members, @group_id)
     end
 
     def add(email)
-      service.insert_member(@group_id, member(email))
-    rescue Google::Apis::ClientError, 'duplicate: Member already exists.'
+      call(:insert_member, @group_id, member(email))
+    rescue Google::Apis::ClientError
       :already_exists
     end
 
     def remove(email)
-      service.delete_member(@group_id, email)
-    rescue Google::Apis::ClientError, '(required: Missing required field: memberKey)'
+      call(:delete_member, @group_id, email)
+    rescue Google::Apis::ClientError
       :not_found
     end
 
   private
-
-    def service_class
-      Google::Apis::AdminDirectoryV1::DirectoryService
-    end
 
     def member(email)
       Google::Apis::AdminDirectoryV1::Member.new(email: email)
