@@ -7,9 +7,9 @@ module GoogleAPI
   require 'googleauth'
   require 'googleauth/stores/file_token_store'
 
-  require 'google_api/concerns'
-
   require 'google_api/base'
+  require 'google_api/base/authorization'
   require 'google_api/calendar'
+  require 'google_api/calendar/clear_test_calendar'
   require 'google_api/group'
 end
