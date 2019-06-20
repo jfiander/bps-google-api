@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.2.1'
+  s.version       = '0.2.2'
   s.date          = '2019-06-20'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'ruby-progressbar',  '~> 1.10'
 
   s.add_development_dependency 'rspec',     '~> 3.8',  '>= 3.8.0'
+  s.add_development_dependency 'rubocop',   '~> 0.71', '>= 0.71.0'
   s.add_development_dependency 'simplecov', '~> 0.16', '>= 0.16.1'
 end
