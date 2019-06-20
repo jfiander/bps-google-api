@@ -14,4 +14,5 @@ module GoogleAPI
   require 'google_api/base'
   require 'google_api/calendar'
   require 'google_api/group'
+  require 'google_api/configured'
 end

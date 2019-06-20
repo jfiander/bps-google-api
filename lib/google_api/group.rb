@@ -4,27 +4,26 @@ module GoogleAPI
   class Group < GoogleAPI::Base
     SERVICE_CLASS = Google::Apis::AdminDirectoryV1::DirectoryService
 
-    def initialize(id, auth: true)
-      @group_id = id
+    def initialize(auth: true)
       super(auth: auth)
     end
 
-    def get
-      call(:get_group, @group_id)
+    def get(group_id)
+      call(:get_group, group_id)
     end
 
-    def members
-      call(:list_members, @group_id)
+    def members(group_id)
+      call(:list_members, group_id)
     end
 
-    def add(email)
-      call(:insert_member, @group_id, member(email))
+    def add(group_id, email)
+      call(:insert_member, group_id, member(email))
     rescue Google::Apis::ClientError
       :already_exists
     end
 
-    def remove(email)
-      call(:delete_member, @group_id, email)
+    def remove(group_id, email)
+      call(:delete_member, group_id, email)
     rescue Google::Apis::ClientError
       :not_found
     end
