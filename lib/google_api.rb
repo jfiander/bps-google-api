@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module GoogleAPI
-  ROOT_PATH ||= File.dirname(__dir__)
-
   require 'google/apis/calendar_v3'
   require 'google/apis/groupssettings_v1'
   require 'google/apis/admin_directory_v1'

@@ -49,12 +49,18 @@ module GoogleAPI
       def auth_client_id
         client_id_file
         Google::Auth::ClientId.from_hash(
-          JSON.parse(File.read('config/keys/google_api_client.json'))
+          JSON.parse(
+            File.read(
+              File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_api_client.json')
+            )
+          )
         )
       end
 
       def auth_token_store
-        Google::Auth::Stores::FileTokenStore.new(file: 'config/keys/google_token.yaml')
+        Google::Auth::Stores::FileTokenStore.new(file:
+          File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_token.yaml')
+        )
       end
 
       def auth_keys(auth)
@@ -69,10 +75,11 @@ module GoogleAPI
         Time.strptime(time, '%Y-%m-%d %H:%M:%S %:z').to_i * 1000
       end
 
-      def store_key(path, key)
+      def store_key(filename, key)
+        FileUtils.mkdir_p(File.join(GoogleAPI::Base.root_path, 'config', 'keys'))
+        path = File.join(GoogleAPI::Base.root_path, 'config', 'keys', filename)
         return if File.exist?(path)
 
-        FileUtils.mkdir_p(File.join(ROOT_PATH, 'config', 'keys'))
         File.open(path, 'w+') do |f|
           File.chmod(0o600, f)
           block_given? ? yield(f) : f.write(key)
@@ -81,7 +88,7 @@ module GoogleAPI
 
       def client_id_file
         store_key(
-          File.join(ROOT_PATH, 'config/keys/google_api_client.json'),
+          'google_api_client.json',
           <<~KEY
             {"installed":{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","project_id":"charming-scarab-208718",
             "auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token",
@@ -93,7 +100,7 @@ module GoogleAPI
 
       def token_file
         store_key(
-          File.join(ROOT_PATH, 'config/keys/google_token.yaml'),
+          'google_token.yaml',
           <<~KEY
             ---
             default: '{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","access_token":"#{ENV['GOOGLE_ACCESS_TOKEN']}",

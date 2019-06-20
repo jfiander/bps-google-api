@@ -15,8 +15,8 @@ RSpec.describe GoogleAPI::Base do
     subject { GoogleAPI::Calendar }
 
     it 'returns the correct last token path' do
-      expect(GoogleAPI::Calendar::LAST_TOKEN_PATH).to eql(
-        File.join(GoogleAPI::ROOT_PATH, 'tmp', 'run', 'last_page_token')
+      expect(GoogleAPI::Calendar.last_token_path).to eql(
+        File.join(GoogleAPI::Base.root_path, 'tmp', 'run', 'last_page_token')
       )
     end
 

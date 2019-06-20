@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 module GoogleAPI
-  require 'google_api/base/authorization'
-
   class Base
     RETRIES ||= [
       Google::Apis::TransmissionError, Google::Apis::ServerError,
       Google::Apis::RateLimitError, Errno::ECONNRESET
     ].freeze
 
+    def self.root_path
+      defined?(Rails) ? Rails.root : File.dirname(__dir__)
+    end
+
+    require 'google_api/base/authorization'
     include GoogleAPI::Base::Authorization
 
     def initialize(auth: true)
