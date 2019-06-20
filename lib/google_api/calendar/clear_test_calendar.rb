@@ -20,7 +20,7 @@ module GoogleAPI
     private
 
       def choose_page_token(page_token)
-        @page_token ||= File.read(LAST_TOKEN_PATH) if File.exist?(LAST_TOKEN_PATH)
+        @page_token ||= File.read(Calendar::LAST_TOKEN_PATH) if File.exist?(Calendar::LAST_TOKEN_PATH)
         @page_token = page_token if token?(page_token)
       end
 
@@ -54,8 +54,8 @@ module GoogleAPI
 
       def log_last_page_token
         puts "\n\n*** Last page token cleared: #{@page_token}" if @verbose
-        File.open(LAST_TOKEN_PATH, 'w+') { |f| f.write(@page_token) }
-        puts "\n*** Token stored in #{LAST_TOKEN_PATH}" if @verbose
+        File.open(Calendar::LAST_TOKEN_PATH, 'w+') { |f| f.write(@page_token) }
+        puts "\n*** Token stored in #{Calendar::LAST_TOKEN_PATH}" if @verbose
       end
 
       def progress_bar(total)

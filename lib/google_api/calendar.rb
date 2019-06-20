@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module GoogleAPI
-  require 'google_api/calendar/clear_test_calendar'
-
   class Calendar < GoogleAPI::Base
     LAST_TOKEN_PATH ||= File.join(ROOT_PATH, 'tmp', 'run', 'last_page_token')
 
+    require 'google_api/calendar/clear_test_calendar'
     include GoogleAPI::Calendar::ClearTestCalendar
 
     SERVICE_CLASS = Google::Apis::CalendarV3::CalendarService

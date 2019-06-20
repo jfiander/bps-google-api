@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module GoogleAPI
-  ROOT_PATH ||= defined?(Rails) ? Rails.root : '.'
+  ROOT_PATH ||= File.dirname(__dir__)
 
   require 'google/apis/calendar_v3'
   require 'google/apis/groupssettings_v1'

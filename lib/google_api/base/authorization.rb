@@ -72,7 +72,7 @@ module GoogleAPI
       def store_key(path, key)
         return if File.exist?(path)
 
-        FileUtils.mkdir_p('config/keys')
+        FileUtils.mkdir_p(File.join(ROOT_PATH, 'config', 'keys'))
         File.open(path, 'w+') do |f|
           File.chmod(0o600, f)
           block_given? ? yield(f) : f.write(key)
@@ -81,7 +81,7 @@ module GoogleAPI
 
       def client_id_file
         store_key(
-          File.join(GoogleAPI::ROOT_PATH, 'config/keys/google_api_client.json'),
+          File.join(ROOT_PATH, 'config/keys/google_api_client.json'),
           <<~KEY
             {"installed":{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","project_id":"charming-scarab-208718",
             "auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token",
@@ -93,7 +93,7 @@ module GoogleAPI
 
       def token_file
         store_key(
-          File.join(GoogleAPI::ROOT_PATH, 'config/keys/google_token.yaml'),
+          File.join(ROOT_PATH, 'config/keys/google_token.yaml'),
           <<~KEY
             ---
             default: '{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","access_token":"#{ENV['GOOGLE_ACCESS_TOKEN']}",
