@@ -20,7 +20,8 @@ module GoogleAPI
     private
 
       def choose_page_token(page_token)
-        @page_token ||= File.read(Calendar::LAST_TOKEN_PATH) if File.exist?(Calendar::LAST_TOKEN_PATH)
+        last_token = Calendar::LAST_TOKEN_PATH
+        @page_token ||= File.read(last_token) if File.exist?(last_token)
         @page_token = page_token if token?(page_token)
       end
 
