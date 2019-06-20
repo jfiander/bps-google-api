@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.require_paths = %w[lib]
   s.files         = `git ls-files`.split("\n")
 
+  s.required_ruby_version = '~> 2.4'
+
   s.add_runtime_dependency 'exp_retry',         '~> 0.0.11'
   s.add_runtime_dependency 'fileutils',         '~> 1.2'
   s.add_runtime_dependency 'google-api-client', '~> 0.23.4'
