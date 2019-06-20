@@ -1,1 +1,3 @@
 config/
+coverage/
+tmp/

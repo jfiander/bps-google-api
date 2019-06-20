@@ -12,7 +12,7 @@ module GoogleAPI
       rescue Google::Apis::RateLimitError
         puts "\n\n*** Google::Apis::RateLimitError (Rate Limit Exceeded)"
       ensure
-        log_last_page_token unless @page_token.blank?
+        log_last_page_token if token?
       end
 
     private
@@ -20,18 +20,23 @@ module GoogleAPI
       def choose_page_token(page_token)
         last_token = last_token_path
         @page_token ||= File.read(last_token) if File.exist?(last_token)
-        @page_token = page_token if page_token.present?
+        @page_token = page_token if token?(page_token)
+      end
+
+      def token?(token = nil)
+        token ||= @token
+        token != ''
       end
 
       def loop_over_pages(cal_id, page_limit: 50)
-        puts "*** Starting with page token: #{@page_token}" if @verbose && @page_token.present?
+        puts "*** Starting with page token: #{@page_token}" if @verbose && token?
 
         page_limit -= 1 while (@page_token = clear_page(cal_id)) && page_limit.positive?
       end
 
       def clear_page(cal_id)
         response = list(cal_id, page_token: @page_token)
-        clear_events_from_page(cal_id, response.items) unless response.items.blank?
+        clear_events_from_page(cal_id, response.items) unless response.items.empty?
         response.next_page_token
       end
 

@@ -7,6 +7,10 @@ module GoogleAPI
   require 'googleauth'
   require 'googleauth/stores/file_token_store'
 
+  require 'exp_retry'
+  require 'fileutils'
+  require 'ruby-progressbar'
+
   require 'google_api/base'
   require 'google_api/calendar'
   require 'google_api/group'

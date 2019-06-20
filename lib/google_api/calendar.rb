@@ -33,27 +33,30 @@ module GoogleAPI
       :event_not_found
     end
 
-    def permit(calendar, user)
+    def permit(calendar, user = nil, email: nil)
+      email ||= user&.email
+
       rule = Google::Apis::CalendarV3::AclRule.new(
-        scope: { type: 'user', value: user.email }, role: 'writer'
+        scope: { type: 'user', value: email }, role: 'writer'
       )
 
-      result = call(:insert_acl, calendar, rule)
-      user.update(calendar_rule_id: result.id)
+      user&.update(calendar_rule_id: call(:insert_acl, calendar, rule).id)
     end
 
-    def unpermit(calendar, user)
-      call(:delete_acl, calendar, user&.calendar_rule_id)
+    def unpermit(calendar, user = nil, calendar_rule_id: nil)
+      calendar_rule_id ||= user&.calendar_rule_id
+
+      call(:delete_acl, calendar, calendar_rule_id)
     rescue Google::Apis::ClientError
       :permission_not_found
     ensure
-      user.update(calendar_rule_id: nil)
+      user&.update(calendar_rule_id: nil)
     end
 
   private
 
     def event(event_options)
-      event_options.assert_valid_keys(VALID_EVENT_KEYS)
+      validate_event_options(event_options)
       event_options[:start] = date(event_options[:start])
       event_options[:end] = date(event_options[:end])
 
@@ -68,6 +71,12 @@ module GoogleAPI
     def last_token_path
       path = %w[tmp run last_page_token]
       defined?(Rails) ? Rails.root.join(*path) : File.join(*path)
+    end
+
+    def validate_event_options(event_options)
+      return unless event_options.respond_to?(:assert_valid_keys)
+
+      event_options.assert_valid_keys(VALID_EVENT_KEYS)
     end
   end
 end
