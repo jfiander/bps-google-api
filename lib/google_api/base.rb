@@ -36,8 +36,7 @@ module GoogleAPI
     end
 
     def last_token_path
-      path = %w[tmp run last_page_token]
-      File.join(root_path, *path)
+      File.join(root_path, 'tmp', 'run', 'last_page_token')
     end
   end
 end

@@ -67,10 +67,5 @@ module GoogleAPI
       key = date&.is_a?(String) ? :date : :date_time
       Google::Apis::CalendarV3::EventDateTime.new(key => date, time_zone: ENV['TZ'])
     end
-
-    def last_token_path
-      path = %w[tmp run last_page_token]
-      defined?(Rails) ? Rails.root.join(*path) : File.join(*path)
-    end
   end
 end

@@ -37,7 +37,7 @@ module GoogleAPI
         url = authorizer.get_authorization_url(base_url: OOB_URI)
         puts("Open this URL to authorize:\n", url)
         print("\nResponse code: ")
-        gets
+        ENV.key?('GOOGLE_AUTHORIZATION_CODE') ? ENV['GOOGLE_AUTHORIZATION_CODE'] : gets
       end
 
       def authorizer
@@ -61,12 +61,12 @@ module GoogleAPI
         {
           GOOGLE_CLIENT_ID: auth.client_id, GOOGLE_CLIENT_SECRET: auth.client_secret,
           GOOGLE_ACCESS_TOKEN: auth.access_token, GOOGLE_REFRESH_TOKEN: auth.refresh_token,
-          GOOGLE_AUTH_SCOPES: auth.scope, GOOGLE_AUTH_EXP: expires_milli(auth.as_json['expires_at'])
+          GOOGLE_AUTH_SCOPES: auth.scope, GOOGLE_AUTH_EXP: expires_milli(auth.expires_at.to_s)
         }
       end
 
       def expires_milli(time)
-        DateTime.strptime(time, '%Y-%m-%dT%H:%M:%S.%L%:z').to_i * 1000
+        Time.strptime(time, '%Y-%m-%d %H:%M:%S %:z').to_i * 1000
       end
 
       def store_key(path, key)

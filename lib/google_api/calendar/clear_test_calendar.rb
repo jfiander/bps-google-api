@@ -3,14 +3,16 @@
 module GoogleAPI
   class Calendar < GoogleAPI::Base
     module ClearTestCalendar
-      def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false)
+      def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false, error: false)
+        raise Google::Apis::RateLimitError, '(Rate Limit Exceeded)' if error
+
         @verbose = verbose
         Google::Apis.logger.level = Logger::WARN
         choose_page_token(page_token)
         loop_over_pages(ENV['GOOGLE_CALENDAR_ID_TEST'], page_limit: page_limit)
         puts '*** Cleared all events!' if @verbose
       rescue Google::Apis::RateLimitError
-        puts "\n\n*** Google::Apis::RateLimitError (Rate Limit Exceeded)"
+        puts "\n\n*** Google::Apis::RateLimitError (Rate Limit Exceeded)" if @verbose
       ensure
         log_last_page_token if token?
       end
@@ -58,10 +60,14 @@ module GoogleAPI
       end
 
       def progress_bar(total)
-        ProgressBar.create(
+        bar_config = {
           title: 'Page cleared', starting_at: 0, total: total, progress_mark: ' ',
           remainder_mark: "\u{FF65}", format: "%a [%R/sec] %E | %b\u{15E7}%i %c/%C (%P%%) %t"
-        )
+        }
+
+        bar_config = bar_config.merge(output: ProgressBar::Silent) if ENV.key?('HIDE_PROGRESS_BARS')
+
+        ProgressBar.create(bar_config)
       end
     end
   end

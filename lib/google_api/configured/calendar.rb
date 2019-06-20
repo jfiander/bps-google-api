@@ -39,9 +39,9 @@ module GoogleAPI
         CALENDAR_API.unpermit(calendar_id, user, calendar_rule_id: calendar_rule_id)
       end
 
-      def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false)
+      def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false, error: false)
         CALENDAR_API.clear_test_calendar(
-          page_token: page_token, page_limit: page_limit, verbose: verbose
+          page_token: page_token, page_limit: page_limit, verbose: verbose, error: error
         )
       end
     end

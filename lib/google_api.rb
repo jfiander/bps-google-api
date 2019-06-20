@@ -17,4 +17,5 @@ module GoogleAPI
   require 'google_api/configured'
 
   require 'ext/hash' unless defined?(Rails)
+  require 'ext/silent_progress_bar'
 end
