@@ -81,7 +81,7 @@ module GoogleAPI
 
       def client_id_file
         store_key(
-          File.join(root_path, 'config/keys/google_api_client.json'),
+          File.join(GoogleAPI::ROOT_PATH, 'config/keys/google_api_client.json'),
           <<~KEY
             {"installed":{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","project_id":"charming-scarab-208718",
             "auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token",
@@ -93,7 +93,7 @@ module GoogleAPI
 
       def token_file
         store_key(
-          File.join(root_path, 'config/keys/google_token.yaml'),
+          File.join(GoogleAPI::ROOT_PATH, 'config/keys/google_token.yaml'),
           <<~KEY
             ---
             default: '{"client_id":"#{ENV['GOOGLE_CLIENT_ID']}","access_token":"#{ENV['GOOGLE_ACCESS_TOKEN']}",

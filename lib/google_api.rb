@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module GoogleAPI
+  ROOT_PATH ||= defined?(Rails) ? Rails.root : '.'
+
   require 'google/apis/calendar_v3'
   require 'google/apis/groupssettings_v1'
   require 'google/apis/admin_directory_v1'

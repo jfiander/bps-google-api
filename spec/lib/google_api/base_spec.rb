@@ -15,7 +15,7 @@ RSpec.describe GoogleAPI::Base do
     subject { GoogleAPI::Calendar }
 
     it 'returns the correct last token path' do
-      expect(subject.new.send(:last_token_path)).to eql('./tmp/run/last_page_token')
+      expect(GoogleAPI::Calendar::LAST_TOKEN_PATH).to eql('./tmp/run/last_page_token')
     end
 
     it 'returns an array from authorize with reveal' do

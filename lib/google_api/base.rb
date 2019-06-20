@@ -30,13 +30,5 @@ module GoogleAPI
     def call(method, *args)
       ExpRetry.for(exception: RETRIES) { service.send(method, *args) }
     end
-
-    def root_path
-      defined?(Rails) ? Rails.root : '.'
-    end
-
-    def last_token_path
-      File.join(root_path, 'tmp', 'run', 'last_page_token')
-    end
   end
 end
