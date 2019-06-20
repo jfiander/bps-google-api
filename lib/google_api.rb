@@ -15,4 +15,6 @@ module GoogleAPI
   require 'google_api/calendar'
   require 'google_api/group'
   require 'google_api/configured'
+
+  require 'ext/hash' unless defined?(Rails)
 end

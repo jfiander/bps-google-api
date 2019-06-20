@@ -56,7 +56,7 @@ module GoogleAPI
   private
 
     def event(event_options)
-      validate_event_options(event_options)
+      event_options.assert_valid_keys(VALID_EVENT_KEYS)
       event_options[:start] = date(event_options[:start])
       event_options[:end] = date(event_options[:end])
 
@@ -71,12 +71,6 @@ module GoogleAPI
     def last_token_path
       path = %w[tmp run last_page_token]
       defined?(Rails) ? Rails.root.join(*path) : File.join(*path)
-    end
-
-    def validate_event_options(event_options)
-      return unless event_options.respond_to?(:assert_valid_keys)
-
-      event_options.assert_valid_keys(VALID_EVENT_KEYS)
     end
   end
 end
