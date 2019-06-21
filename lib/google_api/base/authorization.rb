@@ -58,8 +58,8 @@ module GoogleAPI
       end
 
       def auth_token_store
-        Google::Auth::Stores::FileTokenStore.new(file:
-          File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_token.yaml')
+        Google::Auth::Stores::FileTokenStore.new(
+          file: File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_token.yaml')
         )
       end
 
