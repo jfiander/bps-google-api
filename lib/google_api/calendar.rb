@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   class Calendar < GoogleAPI::Base
     def self.last_token_path
       FileUtils.mkdir_p(File.join(GoogleAPI::Base.root_path, 'tmp', 'run'))

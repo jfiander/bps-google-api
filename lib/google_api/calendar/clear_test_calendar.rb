@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   class Calendar < GoogleAPI::Base
     module ClearTestCalendar
       def clear_test_calendar(page_token: nil, page_limit: 50, verbose: false, error: false)

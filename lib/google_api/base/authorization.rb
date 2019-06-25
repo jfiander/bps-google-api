@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   class Base
     module Authorization
       OOB_URI ||= 'urn:ietf:wg:oauth:2.0:oob'

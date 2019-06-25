@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   module Configured
     class Calendar
       CALENDAR_API ||= GoogleAPI::Calendar.new

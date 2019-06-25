@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   class Base
     RETRIES ||= [
       Google::Apis::TransmissionError, Google::Apis::ServerError,

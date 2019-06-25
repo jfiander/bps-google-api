@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GoogleAPI
+class GoogleAPI
   class Group < GoogleAPI::Base
     SERVICE_CLASS = Google::Apis::AdminDirectoryV1::DirectoryService
 
