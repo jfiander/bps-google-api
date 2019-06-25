@@ -3,8 +3,7 @@
 class GoogleAPI
   class Calendar < GoogleAPI::Base
     def self.last_token_path
-      FileUtils.mkdir_p(File.join(GoogleAPI::Base.root_path, 'tmp', 'run'))
-      File.join(GoogleAPI::Base.root_path, 'tmp', 'run', 'last_page_token')
+      GoogleAPI.configuration.local_path('tmp', 'run', 'last_page_token')
     end
 
     require 'google_api/calendar/clear_test_calendar'

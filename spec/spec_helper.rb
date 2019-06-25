@@ -13,15 +13,15 @@ require 'google_api'
 
 def silently
   original_stdout = $stdout
-  $stdout = File.new(File.join(GoogleAPI::Base.root_path, 'tmp', 'null'), 'w')
+  $stdout = File.new(GoogleAPI.configuration.local_path('tmp', 'null'), 'w')
   yield
   $stdout = original_stdout
 end
 
 RSpec.configure do |config|
   config.before(:suite) do
-    FileUtils.mkdir_p(File.join(GoogleAPI::Base.root_path, 'tmp', 'run'))
-    FileUtils.rm(Dir.glob(File.join(GoogleAPI::Base.root_path, 'config', 'keys', '*')))
+    FileUtils.mkdir_p(GoogleAPI.configuration.local_path('tmp', 'run'))
+    FileUtils.rm(Dir.glob(GoogleAPI.configuration.local_path('config', 'keys', '*')))
 
     ENV['GOOGLE_AUTHORIZATION_CODE'] = 'test-auth-code'
     ENV['HIDE_PROGRESS_BARS'] = 'true'

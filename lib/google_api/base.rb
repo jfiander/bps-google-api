@@ -7,10 +7,6 @@ class GoogleAPI
       Google::Apis::RateLimitError, Errno::ECONNRESET
     ].freeze
 
-    def self.root_path
-      defined?(Rails) ? Rails.root : File.dirname(__dir__)
-    end
-
     require 'google_api/base/authorization'
     include GoogleAPI::Base::Authorization
 

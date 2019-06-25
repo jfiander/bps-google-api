@@ -16,6 +16,21 @@ or install directly:
 gem install bps-google-api
 ```
 
+Create an initializer to configure the root directory for the gem:
+
+```ruby
+GoogleAPI.configure do |config|
+  config.root = File.join('tmp', 'google_api')
+end
+```
+
+```ruby
+GoogleAPI.configure do |config|
+  config.root = Rails.root.join('config', 'google_api')
+  config.keys = Rails.root.join('config', 'keys')
+end
+```
+
 Then run the following in `config/application.rb`:
 
 ```ruby

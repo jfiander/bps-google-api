@@ -51,7 +51,7 @@ class GoogleAPI
         Google::Auth::ClientId.from_hash(
           JSON.parse(
             File.read(
-              File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_api_client.json')
+              GoogleAPI.configuration.local_path('google_api_client.json', &:keys)
             )
           )
         )
@@ -59,7 +59,7 @@ class GoogleAPI
 
       def auth_token_store
         Google::Auth::Stores::FileTokenStore.new(
-          file: File.join(GoogleAPI::Base.root_path, 'config', 'keys', 'google_token.yaml')
+          file: GoogleAPI.configuration.local_path('google_token.yaml', &:keys)
         )
       end
 
@@ -76,8 +76,7 @@ class GoogleAPI
       end
 
       def store_key(filename, key)
-        FileUtils.mkdir_p(File.join(GoogleAPI::Base.root_path, 'config', 'keys'))
-        path = File.join(GoogleAPI::Base.root_path, 'config', 'keys', filename)
+        path = GoogleAPI.configuration.local_path(filename, &:keys)
         return if File.exist?(path)
 
         File.open(path, 'w+') do |f|
