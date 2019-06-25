@@ -3,7 +3,9 @@
 class GoogleAPI
   module Configured
     class Group
-      GROUP_API ||= GoogleAPI::Group.new
+      def self.api
+        @api ||= GoogleAPI::Group.new
+      end
 
       attr_reader :group_id
 
@@ -12,19 +14,19 @@ class GoogleAPI
       end
 
       def get
-        GROUP_API.get(group_id)
+        self.class.api.get(group_id)
       end
 
       def members
-        GROUP_API.members(group_id)
+        self.class.api.members(group_id)
       end
 
       def add(email)
-        GROUP_API.add(group_id, email)
+        self.class.api.add(group_id, email)
       end
 
       def remove(email)
-        GROUP_API.remove(group_id, email)
+        self.class.api.remove(group_id, email)
       end
     end
   end
