@@ -81,18 +81,42 @@ RSpec.describe GoogleAPI::Calendar do
       expect(subject.create(test_event)).to be_a(Google::Apis::CalendarV3::Event)
     end
 
+    it 'creates an event with a new conference' do
+      event = test_event.merge(conference: { id: :new })
+      expect(subject.create(event)).to be_a(Google::Apis::CalendarV3::Event)
+    end
+
+    it 'creates an event with conference data' do
+      event = subject.create(test_event)
+      event = subject.add_conference(event.id)
+      event_options = test_event.merge(
+        conference: {
+          id: event.conference_data.conference_id,
+          signature: event.conference_data.signature
+        }
+      )
+
+      expect(subject.create(event_options)).to be_a(Google::Apis::CalendarV3::Event)
+    end
+
     it 'gets an event ' do
       event = subject.create(test_event)
       expect(subject.get(event.id)).to be_a(Google::Apis::CalendarV3::Event)
+    end
+
+    it 'patches an event' do
+      event = subject.create(test_event)
+      subject.patch(event.id, description: 'Patched.')
+
+      expect(subject.get(event.id).description).to eql('Patched.')
     end
 
     it 'updates an event' do
       event = subject.create(test_event)
       updated_test_event = test_event.merge(description: 'Updated.')
       subject.update(event.id, updated_test_event)
-      updated_event = subject.get(event.id)
 
-      expect(updated_event.description).to eql('Updated.')
+      expect(subject.get(event.id).description).to eql('Updated.')
     end
 
     it 'deletes an event' do
@@ -127,6 +151,12 @@ RSpec.describe GoogleAPI::Calendar do
           end.not_to raise_error
         end
       end
+    end
+
+    it 'adds conference data' do
+      event = subject.create(test_event)
+
+      expect(subject.add_conference(event.id)).to be_a(Google::Apis::CalendarV3::Event)
     end
   end
 end
