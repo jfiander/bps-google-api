@@ -1,5 +1,8 @@
 # BPS Google API
 
+[![Gem Version](https://img.shields.io/gem/v/bps-google-api.svg)](https://rubygems.org/gems/bps-google-api)
+[![Build Status](https://travis-ci.org/jfiander/bps-google-api.svg)](https://travis-ci.org/jfiander/bps-google-api)
+
 A configured Google API wrapper.
 
 ## Installation
@@ -16,13 +19,15 @@ or install directly:
 gem install bps-google-api
 ```
 
-Create an initializer to configure the root directory for the gem:
+Configure the root directories for the gem:
 
 ```ruby
 GoogleAPI.configure do |config|
   config.root = File.join('tmp', 'google_api')
 end
 ```
+
+For Rails, create an initializer:
 
 ```ruby
 GoogleAPI.configure do |config|
@@ -31,7 +36,7 @@ GoogleAPI.configure do |config|
 end
 ```
 
-Then run the following in `config/application.rb`:
+Then add the following in `config/application.rb`:
 
 ```ruby
 require 'google_api'
@@ -54,27 +59,48 @@ TZ # Timezone
 
 ## Usage
 
-If no configuration is available, `.new` will automatically run `.authorize!`
-and return a URL to generate an authorization token.
+By default, if no configuration is available, `.new` will automatically run
+`.authorize!` and return a URL to generate an authorization token.
 
 ```ruby
-calendar = GoogleAPI::Calendar.new
+calendar = GoogleAPI::Configured::Calendar.new(calendar_id)
 
-calendar.create(cal_id, event_options)
-calendar.list(cal_id, max_results: 2500, page_token: nil)
-calendar.get(cal_id, event_id)
-calendar.update(cal_id, event_id, event_options)
-calendar.delete(cal_id, event_id)
+calendar.create(event_options)
+calendar.list(max_results: 2500, page_token: nil)
+calendar.get(event_id)
+calendar.update(event_id, event_options)
+calendar.delete(event_id)
 
-calendar.permit(calendar, user)
-calendar.unpermit(calendar, user)
+calendar.permit(user)
+calendar.unpermit(user)
 ```
 
 ```ruby
-group = GoogleAPI::Group.new('group@example.com')
+group = GoogleAPI::Configured::Group.new('group@example.com')
 
 group.get
 group.members
 group.add('somebody@example.com')
 group.remove('somebody@example.com')
+```
+
+### Event Options
+
+Available event options are listed in `GoogleAPI::Calendar::VALID_EVENT_KEYS`.
+
+```ruby
+repeat_pattern = 'WEEKLY' # 'DAILY', etc.
+recurrence = ["RRULE:FREQ=#{repeat_pattern};COUNT=#{sessions}"]
+
+event_options = {
+  start: start_date, end: end_date, recurrence: recurrence,
+  summary: event_title, description: event_description,
+  location: location
+}
+```
+
+To add a Meet call to an event, merge the following into `event_options`:
+
+```ruby
+{ conference: { id: meeting_id, signature: meeting_signature } }
 ```
