@@ -10,7 +10,8 @@ class GoogleAPI
       ].freeze
       TOKEN_SCOPES ||= [
         '"https://www.googleapis.com/auth/admin.directory.group"',
-        '"https://www.googleapis.com/auth/calendar"'
+        '"https://www.googleapis.com/auth/calendar"',
+        '"https://www.googleapis.com/auth/calendar.events"'
       ].freeze
 
       def authorize!(refresh: false, reveal: false)

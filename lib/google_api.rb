@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class GoogleAPI
+  # Core Dependencies
+  require 'date'
+
   # Google Dependencies
   require 'google/apis/calendar_v3'
   require 'google/apis/groupssettings_v1'

@@ -25,6 +25,10 @@ class GoogleAPI
         self.class.api.get(calendar_id, event_id)
       end
 
+      def patch(event_id, event_options = {})
+        self.class.api.patch(calendar_id, event_id, event_options)
+      end
+
       def update(event_id, event_options = {})
         self.class.api.update(calendar_id, event_id, event_options)
       end
@@ -45,6 +49,10 @@ class GoogleAPI
         self.class.api.clear_test_calendar(
           page_token: page_token, page_limit: page_limit, verbose: verbose, error: error
         )
+      end
+
+      def add_conference(event_id)
+        self.class.api.add_conference(calendar_id, event_id)
       end
     end
   end
