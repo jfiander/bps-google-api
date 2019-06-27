@@ -1,3 +1,4 @@
 config/
 coverage/
 tmp/
+lib/google_api/tmp

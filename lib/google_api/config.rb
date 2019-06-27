@@ -6,7 +6,7 @@ class GoogleAPI
     attr_writer :keys
 
     def initialize
-      self.root = __dir__
+      self.root = File.join(__dir__, 'tmp')
 
       yield self if block_given?
     end
