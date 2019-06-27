@@ -14,8 +14,7 @@ class GoogleAPI
 
     SERVICE_CLASS = Google::Apis::CalendarV3::CalendarService
     VALID_EVENT_KEYS ||= %i[
-      summary start end description location recurrence conference
-      conference_data
+      summary start end description location recurrence conference conference_data
     ].freeze
     VALID_PATCH_KEYS ||= %i[
       summary start end description location recurrence conference_data created reminders creator

@@ -40,7 +40,24 @@ RSpec.describe GoogleAPI::Configured::Calendar::Event do
     expect(subject.delete).to eql('')
   end
 
-  it 'adds conference data' do
-    expect(subject.add_conference).to be_a(Google::Apis::CalendarV3::Event)
+  describe 'conference data' do
+    it 'adds conference data' do
+      expect(subject.add_conference).to be_a(Google::Apis::CalendarV3::Event)
+    end
+
+    it 'returns valid conference information' do
+      event = subject.add_conference
+      subject.patch(
+        conference: {
+          id: event.conference_data.conference_id,
+          signature: event.conference_data.signature
+        }
+      )
+
+      expect(subject.conference_info).to eql(
+        id: event.conference_data.conference_id,
+        signature: event.conference_data.signature
+      )
+    end
   end
 end

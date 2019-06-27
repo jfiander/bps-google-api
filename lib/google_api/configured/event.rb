@@ -34,6 +34,10 @@ class GoogleAPI
         def add_conference
           self.class.api.add_conference(calendar_id, event_id)
         end
+
+        def conference_info(all: false)
+          self.class.api.conference_info(calendar_id, event_id, all: all)
+        end
       end
     end
   end

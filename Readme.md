@@ -77,6 +77,7 @@ calendar.get(event_id)
 calendar.patch(event_id, patch_options)
 calendar.update(event_id, updated_event_options)
 calendar.add_conference(event_id)
+calendar.conference_info(event_id, all: false)
 calendar.delete(event_id)
 
 calendar.permit(user)
@@ -101,6 +102,7 @@ event.get
 event.patch(patch_options)
 event.update(updated_event_options)
 event.add_conference
+event.conference_info(all: false)
 event.delete
 ```
 

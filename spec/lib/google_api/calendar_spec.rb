@@ -85,22 +85,41 @@ RSpec.describe GoogleAPI::Calendar do
       expect(subject.create(test_event)).to be_a(Google::Apis::CalendarV3::Event)
     end
 
-    it 'creates an event with a new conference' do
-      event = test_event.merge(conference: { id: :new })
-      expect(subject.create(event)).to be_a(Google::Apis::CalendarV3::Event)
-    end
+    describe 'conference data' do
+      it 'creates an event with a new conference' do
+        event = test_event.merge(conference: { id: :new })
 
-    it 'creates an event with conference data' do
-      event = subject.create(test_event)
-      event = subject.add_conference(event.id)
-      event_options = test_event.merge(
-        conference: {
+        expect(subject.create(event)).to be_a(Google::Apis::CalendarV3::Event)
+      end
+
+      it 'creates an event with conference data' do
+        event = subject.create(test_event)
+        event = subject.add_conference(event.id)
+        event_options = test_event.merge(
+          conference: {
+            id: event.conference_data.conference_id,
+            signature: event.conference_data.signature
+          }
+        )
+
+        expect(subject.create(event_options)).to be_a(Google::Apis::CalendarV3::Event)
+      end
+
+      it 'returns valid conference information' do
+        event = subject.create(test_event)
+        event = subject.add_conference(event.id)
+        event_options = test_event.merge(
+          conference: {
+            id: event.conference_data.conference_id,
+            signature: event.conference_data.signature
+          }
+        )
+
+        expect(subject.conference_info(event.id)).to eql(
           id: event.conference_data.conference_id,
           signature: event.conference_data.signature
-        }
-      )
-
-      expect(subject.create(event_options)).to be_a(Google::Apis::CalendarV3::Event)
+        )
+      end
     end
 
     it 'gets an event ' do

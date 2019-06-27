@@ -15,6 +15,13 @@ class GoogleAPI
         call(:patch_event, calendar_id, event_id, patch_options, conference_data_version: 1)
       end
 
+      def conference_info(calendar_id, event_id, all: false)
+        conf = call(:get_event, calendar_id, event_id).conference_data
+        return conf if all
+
+        { id: conf.conference_id, signature: conf.signature }
+      end
+
     private
 
       def format_conference_data(event_options)
