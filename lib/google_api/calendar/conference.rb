@@ -17,7 +17,7 @@ class GoogleAPI
 
       def conference_info(calendar_id, event_id, all: false)
         conf = call(:get_event, calendar_id, event_id).conference_data
-        return conf if all
+        return conf if all || conf.nil?
 
         { id: conf.conference_id, signature: conf.signature }
       end
