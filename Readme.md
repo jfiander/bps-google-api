@@ -62,13 +62,20 @@ TZ # Timezone
 By default, if no configuration is available, `.new` will automatically run
 `.authorize!` and return a URL to generate an authorization token.
 
+### Configured Classes
+
+There are configured classes for both calendars and groups. This allows you to
+only specify the parent id once.
+
 ```ruby
 calendar = GoogleAPI::Configured::Calendar.new(calendar_id)
 
 calendar.create(event_options)
 calendar.list(max_results: 2500, page_token: nil)
 calendar.get(event_id)
-calendar.update(event_id, event_options)
+calendar.patch(event_id, patch_options)
+calendar.update(event_id, updated_event_options)
+calendar.add_conference(event_id)
 calendar.delete(event_id)
 
 calendar.permit(user)
@@ -82,6 +89,18 @@ group.get
 group.members
 group.add('somebody@example.com')
 group.remove('somebody@example.com')
+```
+
+There is also an event-specific configured class:
+
+```ruby
+event = GoogleAPI::Configured::Calendar::Event.new(calendar_id, event_id)
+
+event.get
+event.patch(patch_options)
+event.update(updated_event_options)
+event.add_conference
+event.delete
 ```
 
 ### Event Options
@@ -104,3 +123,32 @@ To add a Meet call to an event, merge the following into `event_options`:
 ```ruby
 { conference: { id: meeting_id, signature: meeting_signature } }
 ```
+
+To create a new Meet call on an event, merge the following into
+`event_options` instead:
+
+```ruby
+{ conference: { id: :new } }
+```
+
+## Testing
+
+### Rspec
+
+Rspec testing is available:
+
+`bundle exec rspec`
+
+The spec suite will fail if under 100% coverage.
+
+### Rubocop
+
+Rubocop formatting validation is available:
+
+`bundle exec rubocop`
+
+### Automatic Builds
+
+Builds are generated automatically by [Travis CI](https://travis-ci.org/jfiander/bps-google-api).
+
+Build success requires both `rspec` and `rubocop` to pass.
