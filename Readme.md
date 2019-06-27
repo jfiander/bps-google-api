@@ -72,6 +72,7 @@ calendar = GoogleAPI::Configured::Calendar.new(calendar_id)
 
 calendar.create(event_options)
 calendar.list(max_results: 2500, page_token: nil)
+calendar.list_all
 calendar.get(event_id)
 calendar.patch(event_id, patch_options)
 calendar.update(event_id, updated_event_options)
