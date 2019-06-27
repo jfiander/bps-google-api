@@ -47,12 +47,6 @@ RSpec.describe GoogleAPI::Configured::Calendar::Event do
 
     it 'returns valid conference information' do
       event = subject.add_conference
-      subject.patch(
-        conference: {
-          id: event.conference_data.conference_id,
-          signature: event.conference_data.signature
-        }
-      )
 
       expect(subject.conference_info).to eql(
         id: event.conference_data.conference_id,

@@ -78,6 +78,8 @@ RSpec.describe GoogleAPI::Calendar do
     end
 
     it 'returns the array of all events from list_all' do
+      subject.create(test_event) # Ensure at least one event exists
+
       expect(subject.list_all.map(&:class).uniq).to eql([Google::Apis::CalendarV3::Event])
     end
 
@@ -108,12 +110,6 @@ RSpec.describe GoogleAPI::Calendar do
       it 'returns valid conference information' do
         event = subject.create(test_event)
         event = subject.add_conference(event.id)
-        event_options = test_event.merge(
-          conference: {
-            id: event.conference_data.conference_id,
-            signature: event.conference_data.signature
-          }
-        )
 
         expect(subject.conference_info(event.id)).to eql(
           id: event.conference_data.conference_id,
