@@ -77,6 +77,10 @@ RSpec.describe GoogleAPI::Calendar do
       expect(subject.list).to be_a(Google::Apis::CalendarV3::Events)
     end
 
+    it 'returns the array of all events from list_all' do
+      expect(subject.list_all.map(&:class).uniq).to eql([Google::Apis::CalendarV3::Event])
+    end
+
     it 'creates an event' do
       expect(subject.create(test_event)).to be_a(Google::Apis::CalendarV3::Event)
     end

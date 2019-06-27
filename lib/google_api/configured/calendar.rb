@@ -17,6 +17,10 @@ class GoogleAPI
         self.class.api.list(calendar_id, max_results: max_results, page_token: page_token)
       end
 
+      def list_all
+        self.class.api.list_all(calendar_id)
+      end
+
       def create(event_options = {})
         self.class.api.create(calendar_id, event_options)
       end

@@ -30,6 +30,22 @@ class GoogleAPI
       call(:list_events, calendar_id, max_results: max_results, page_token: page_token)
     end
 
+    def list_all(calendar_id, verbose: false)
+      events = []
+
+      list = call(:list_events, calendar_id)
+      events += list.items
+
+      while (page_token = list.next_page_token)
+        list = call(:list_events, calendar_id, page_token: page_token)
+        page_token = list.next_page_token
+        events += list.items
+        print('.') if verbose
+      end
+
+      events
+    end
+
     def get(calendar_id, event_id)
       call(:get_event, calendar_id, event_id)
     end
