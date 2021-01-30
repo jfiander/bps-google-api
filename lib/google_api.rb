@@ -30,7 +30,7 @@ class GoogleAPI
   end
 
   def self.logging!(level = :FATAL)
-    raise ArgumentError, 'Unknown logging level' unless %i[INFO WARN ERROR FATAL].include?(level)
+    raise ArgumentError, 'Unknown level' unless %i[DEBUG INFO WARN ERROR FATAL].include?(level)
 
     Google::Apis.logger.level = Logger.const_get(level)
   end
