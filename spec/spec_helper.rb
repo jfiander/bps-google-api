@@ -25,6 +25,8 @@ RSpec.configure do |config|
       c.keys = 'tmp/spec/keys'
     end
 
+    GoogleAPI.logging!(:INFO)
+
     FileUtils.rm(Dir.glob(GoogleAPI.configuration.local_path('*', &:keys)))
 
     ENV['GOOGLE_AUTHORIZATION_CODE'] = 'test-auth-code'

@@ -29,6 +29,12 @@ class GoogleAPI
     configuration
   end
 
+  def self.logging!(level = :FATAL)
+    raise ArgumentError, 'Unknown logging level' unless %i[INFO WARN ERROR FATAL].include?(level)
+
+    Google::Apis.logger.level = Logger.const_get(level)
+  end
+
   # Internal requires
   require 'google_api/base'
   require 'google_api/calendar'

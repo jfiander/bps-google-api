@@ -36,6 +36,12 @@ GoogleAPI.configure do |config|
 end
 ```
 
+You can also alter the logging level using:
+
+```ruby
+GoogleAPI.logging!(:FATAL) # %i[INFO WARN ERROR FATAL]
+```
+
 Then add the following in `config/application.rb`:
 
 ```ruby
