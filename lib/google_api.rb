@@ -29,11 +29,7 @@ require 'ext/hash' unless defined?(Rails)
 require 'ext/silent_progress_bar'
 
 class GoogleAPI
-  @@mock = false # Default to normal behavior
-
   class << self
-    attr_reader :mock
-
     def configuration
       @configuration ||= GoogleAPI::Config.new
     end
@@ -52,6 +48,10 @@ class GoogleAPI
 
     def mock!(value = true)
       @mock = value
+    end
+
+    def mock
+      @mock || false
     end
   end
 end
