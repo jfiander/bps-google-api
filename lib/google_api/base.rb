@@ -29,7 +29,7 @@ class GoogleAPI
 
     def call(method, *args)
       if GoogleAPI.mock
-        self.send(:mock, method, *args)
+        send(:mock, method, *args)
       else
         ExpRetry.for(exception: RETRIES) { service.send(method, *args) }
       end
