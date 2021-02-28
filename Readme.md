@@ -1,7 +1,7 @@
 # BPS Google API
 
 [![Gem Version](https://img.shields.io/gem/v/bps-google-api.svg)](https://rubygems.org/gems/bps-google-api)
-[![Build Status](https://travis-ci.org/jfiander/bps-google-api.svg)](https://travis-ci.org/jfiander/bps-google-api)
+[![Build Status](https://travis-ci.com/jfiander/bps-google-api.svg)](https://travis-ci.com/jfiander/bps-google-api)
 
 A configured Google API wrapper.
 
