@@ -35,6 +35,16 @@ class GoogleAPI
     Google::Apis.logger.level = Logger.const_get(level)
   end
 
+  @@mock = false # Default to normal behavior
+
+  def self.mock!(value = true)
+    @@mock = value
+  end
+
+  def self.mock
+    @@mock
+  end
+
   # Internal requires
   require 'google_api/base'
   require 'google_api/calendar'

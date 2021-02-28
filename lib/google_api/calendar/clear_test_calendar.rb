@@ -69,6 +69,11 @@ class GoogleAPI
 
         ProgressBar.create(bar_config)
       end
+
+      # Is this one necessary?
+      def mock(_method, *_args)
+        nil
+      end
     end
   end
 end

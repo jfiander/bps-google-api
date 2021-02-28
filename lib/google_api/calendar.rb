@@ -111,5 +111,13 @@ class GoogleAPI
       key = date&.is_a?(String) ? :date : :date_time
       Google::Apis::CalendarV3::EventDateTime.new(key => date, time_zone: ENV['TZ'])
     end
+
+    def mock(_method, *_args)
+      Google::Apis::CalendarV3::Event.new(
+        id: SecureRandom.hex(8),
+        html_link: 'http://calendar.google.com',
+        conference_id: 'abc-defg-hjk'
+      )
+    end
   end
 end

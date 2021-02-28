@@ -60,6 +60,8 @@ class GoogleAPI
       end
 
       def conference_info(event_id, all: false)
+        return self.class.api.send(:conference_mock) if GoogleAPI.mock
+
         self.class.api.conference_info(calendar_id, event_id, all: all)
       end
     end

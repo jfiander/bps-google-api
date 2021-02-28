@@ -15,7 +15,11 @@ class GoogleAPI
         call(:patch_event, calendar_id, event_id, patch_options, conference_data_version: 1)
       end
 
-      def conference_info(calendar_id, event_id, all: false)
+      def conference_info(calendar_id, event_id = nil, all: false)
+        return conference_mock if GoogleAPI.mock
+
+        raise ArgumentError, 'event_id is required' if event_id.nil?
+
         conf = call(:get_event, calendar_id, event_id).conference_data
         return conf if all || conf.nil?
 
@@ -73,6 +77,10 @@ class GoogleAPI
             entry_point_type: 'video'
           )
         ]
+      end
+
+      def conference_mock
+        { id: 'abc-defg-hjk', signature: SecureRandom.hex(32) }
       end
     end
   end
