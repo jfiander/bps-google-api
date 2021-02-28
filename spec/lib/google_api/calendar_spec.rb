@@ -178,4 +178,22 @@ RSpec.describe GoogleAPI::Calendar do
       expect(subject.add_conference(event.id)).to be_a(Google::Apis::CalendarV3::Event)
     end
   end
+
+  describe 'mock' do
+    subject { described_class.new }
+
+    before { GoogleAPI.mock! }
+
+    it 'calls the mock method' do
+      expect(subject).to receive(:mock).and_call_original
+
+      subject.create({})
+    end
+
+    it 'calls the conference_mock method' do
+      expect(subject).to receive(:conference_mock).and_call_original
+
+      subject.conference_info('')
+    end
+  end
 end

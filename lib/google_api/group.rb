@@ -34,7 +34,7 @@ class GoogleAPI
       Google::Apis::AdminDirectoryV1::Member.new(email: email)
     end
 
-    def mock(_method, *_args)
+    def mock(*)
       Google::Apis::AdminDirectoryV1::Members.new(
         members: [
           Google::Apis::AdminDirectoryV1::Member.new(email: 'nobody@example.com')

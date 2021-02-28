@@ -34,5 +34,11 @@ class GoogleAPI
         ExpRetry.for(exception: RETRIES) { service.send(method, *args) }
       end
     end
+
+    # :nocov:
+    def mock(*)
+      raise 'This method must be overwritten by the inheriting class.'
+    end
+    # :nocov:
   end
 end

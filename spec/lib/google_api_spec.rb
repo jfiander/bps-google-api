@@ -12,4 +12,8 @@ RSpec.describe GoogleAPI do
   it 'raises for invalid levels' do
     expect { GoogleAPI.logging!(:WRONG) }.to raise_error(ArgumentError, 'Unknown level')
   end
+
+  it 'sets the mock flag' do
+    expect { GoogleAPI.mock! }.to change { GoogleAPI.mock }.from(false).to(true)
+  end
 end

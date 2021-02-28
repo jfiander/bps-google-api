@@ -32,4 +32,8 @@ RSpec.configure do |config|
     ENV['GOOGLE_AUTHORIZATION_CODE'] = 'test-auth-code'
     ENV['HIDE_PROGRESS_BARS'] = 'true'
   end
+
+  config.after do
+    GoogleAPI.mock!(false) # Reset mock state
+  end
 end

@@ -112,7 +112,7 @@ class GoogleAPI
       Google::Apis::CalendarV3::EventDateTime.new(key => date, time_zone: ENV['TZ'])
     end
 
-    def mock(_method, *_args)
+    def mock(*)
       Google::Apis::CalendarV3::Event.new(
         id: SecureRandom.hex(8),
         html_link: 'http://calendar.google.com',

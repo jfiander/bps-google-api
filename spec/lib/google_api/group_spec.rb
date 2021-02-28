@@ -46,4 +46,16 @@ RSpec.describe GoogleAPI::Group do
       end
     end
   end
+
+  describe 'mock' do
+    subject { described_class.new }
+
+    before { GoogleAPI.mock! }
+
+    it 'calls the mock method' do
+      expect(subject).to receive(:mock).and_call_original
+
+      subject.members({})
+    end
+  end
 end
