@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
+require 'google_api/base/authorization'
+
 class GoogleAPI
   class Base
+    include GoogleAPI::Base::Authorization
+
     RETRIES ||= [
       Google::Apis::TransmissionError, Google::Apis::ServerError,
       Google::Apis::RateLimitError, Errno::ECONNRESET
     ].freeze
-
-    require 'google_api/base/authorization'
-    include GoogleAPI::Base::Authorization
 
     def initialize(auth: true)
       authorize! if auth

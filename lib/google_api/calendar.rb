@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
+require 'google_api/calendar/conference'
+require 'google_api/calendar/clear_test_calendar'
+
 class GoogleAPI
   class Calendar < GoogleAPI::Base
-    def self.last_token_path
-      GoogleAPI.configuration.local_path('tmp', 'run', 'last_page_token')
-    end
-
-    require 'google_api/calendar/conference'
     include GoogleAPI::Calendar::Conference
-
-    require 'google_api/calendar/clear_test_calendar'
     include GoogleAPI::Calendar::ClearTestCalendar
 
     SERVICE_CLASS = Google::Apis::CalendarV3::CalendarService
@@ -20,6 +16,10 @@ class GoogleAPI
       summary start end description location recurrence conference_data created reminders creator
       etag html_link i_cal_uid id kind organizer reminders sequence status updated
     ].freeze
+
+    def self.last_token_path
+      GoogleAPI.configuration.local_path('tmp', 'run', 'last_page_token')
+    end
 
     def create(calendar_id, event_options = {})
       call(:insert_event, calendar_id, event(event_options), conference_data_version: 1)
