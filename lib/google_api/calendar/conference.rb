@@ -46,10 +46,8 @@ class GoogleAPI
 
       def conference(conf_id, signature)
         {
-          conference: {
-            conference_id: conf_id, conference_solution: meet_solution,
-            entry_points: meet_entry(conf_id), signature: signature
-          }
+          conference_id: conf_id, conference_solution: meet_solution,
+          entry_points: meet_entry(conf_id), signature: signature
         }
       end
 
