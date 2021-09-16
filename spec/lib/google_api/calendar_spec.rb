@@ -83,6 +83,23 @@ RSpec.describe GoogleAPI::Calendar do
       expect(subject.list_all.map(&:class).uniq).to eql([Google::Apis::CalendarV3::Event])
     end
 
+    context 'with multiple pages' do
+      let(:calendar) { subject.class.api }
+
+      before do
+        allow(calendar).to receive(:call).and_return(
+          Google::Apis::CalendarV3::Events.new(items: [Google::Apis::CalendarV3::Event], next_page_token: 'abc'),
+          Google::Apis::CalendarV3::Events.new(items: [Google::Apis::CalendarV3::Event], next_page_token: nil)
+        )
+      end
+
+      it 'returns the array of all events from list_all when paginated' do
+        expect(calendar).to receive(:call).twice
+
+        subject.list_all
+      end
+    end
+
     it 'creates an event' do
       expect(subject.create(test_event)).to be_a(Google::Apis::CalendarV3::Event)
     end
