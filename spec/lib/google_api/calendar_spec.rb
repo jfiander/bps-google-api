@@ -111,7 +111,7 @@ RSpec.describe GoogleAPI::Calendar do
         expect(subject.create(event)).to be_a(Google::Apis::CalendarV3::Event)
       end
 
-      it 'creates an event with conference data' do
+      it 'creates an event with conference data', :aggregate_failures do
         event = subject.create(test_event)
         event = subject.add_conference(event.id)
         event_options = test_event.merge(
@@ -121,7 +121,9 @@ RSpec.describe GoogleAPI::Calendar do
           }
         )
 
-        expect(subject.create(event_options)).to be_a(Google::Apis::CalendarV3::Event)
+        event = subject.create(event_options)
+        expect(event).to be_a(Google::Apis::CalendarV3::Event)
+        expect(event.conference_data).not_to be_nil
       end
 
       it 'returns valid conference information' do
