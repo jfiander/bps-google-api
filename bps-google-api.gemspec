@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.5.0'
-  s.date          = '2023-03-13'
+  s.version       = '0.5.1'
+  s.date          = '2023-04-08'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
   s.homepage      = 'http://rubygems.org/gems/bps-google-api'
