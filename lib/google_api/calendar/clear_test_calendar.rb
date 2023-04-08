@@ -7,9 +7,10 @@ class GoogleAPI
         raise Google::Apis::RateLimitError, '(Rate Limit Exceeded)' if error
 
         @verbose = verbose
-        Google::Apis.logger.level = Logger::WARN
-        choose_page_token(page_token)
-        loop_over_pages(ENV['GOOGLE_CALENDAR_ID_TEST'], page_limit: page_limit)
+        quietly do
+          choose_page_token(page_token)
+          loop_over_pages(ENV['GOOGLE_CALENDAR_ID_TEST'], page_limit: page_limit)
+        end
         puts '*** Cleared all events!' if @verbose
       rescue Google::Apis::RateLimitError
         puts "\n\n*** Google::Apis::RateLimitError (Rate Limit Exceeded)" if @verbose
@@ -18,6 +19,15 @@ class GoogleAPI
       end
 
     private
+
+      def quietly
+        old_level = Google::Apis.logger.level
+        Google::Apis.logger.level = Logger::WARN
+
+        yield
+
+        Google::Apis.logger.level = old_level
+      end
 
       def choose_page_token(page_token)
         last_token = Calendar.last_token_path
