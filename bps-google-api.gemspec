@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name          = 'bps-google-api'
-  s.version       = '0.5.1'
+  s.version       = '0.6.0'
   s.date          = '2023-04-08'
   s.summary       = 'Configured Google API'
   s.description   = 'A configured Google API wrapper.'
@@ -15,10 +15,12 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.4'
 
-  s.add_runtime_dependency 'exp_retry',         '~> 0.0.13'
-  s.add_runtime_dependency 'fileutils',         '~> 1.2'
-  s.add_runtime_dependency 'google-api-client', '~> 0.23'
-  s.add_runtime_dependency 'ruby-progressbar',  '~> 1.10'
+  s.add_runtime_dependency 'exp_retry',                      '~> 0.0.13'
+  s.add_runtime_dependency 'fileutils',                      '~> 1.2'
+  s.add_runtime_dependency 'google-apis-calendar_v3',        '~> 0.27'
+  s.add_runtime_dependency 'google-apis-groupssettings_v1',  '~> 0.13'
+  s.add_runtime_dependency 'google-apis-admin_directory_v1', '~> 0.40'
+  s.add_runtime_dependency 'ruby-progressbar',               '~> 1.10'
 
   s.add_development_dependency 'rspec',     '~> 3.8',  '>= 3.8.0'
   s.add_development_dependency 'rubocop',   '~> 0.71', '>= 0.71.0'
