@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    bps-google-api (0.6.0)
+    bps-google-api (0.6.1)
       exp_retry (~> 0.0.13)
-      fileutils (~> 1.2)
+      fileutils (~> 1.4, >= 1.4.1)
       google-apis-admin_directory_v1 (~> 0.40)
       google-apis-calendar_v3 (~> 0.27)
       google-apis-groupssettings_v1 (~> 0.13)
@@ -12,7 +12,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.3)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.0)
     declarative (0.0.20)
