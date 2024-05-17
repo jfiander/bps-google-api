@@ -21,8 +21,8 @@ class GoogleAPI
       GoogleAPI.configuration.local_path('tmp', 'run', 'last_page_token')
     end
 
-    def create(calendar_id, event_options = {})
-      call(:insert_event, calendar_id, event(event_options), conference_data_version: 1)
+    def create(calendar_id, **event_options)
+      call(:insert_event, calendar_id, event(false, **event_options), conference_data_version: 1)
     end
 
     def list(calendar_id, max_results: 2500, page_token: nil)
@@ -32,13 +32,13 @@ class GoogleAPI
     def list_all(calendar_id, verbose: false)
       events = []
 
-      list = call(:list_events, calendar_id)
-      events += list.items
+      l = call(:list_events, calendar_id)
+      events += l.items
 
-      while (page_token = list.next_page_token)
-        list = call(:list_events, calendar_id, page_token: page_token)
-        page_token = list.next_page_token
-        events += list.items
+      while (page_token = l.next_page_token)
+        l = call(:list_events, calendar_id, page_token: page_token)
+        page_token = l.next_page_token
+        events += l.items
         print('.') if verbose
       end
 
@@ -49,12 +49,12 @@ class GoogleAPI
       call(:get_event, calendar_id, event_id)
     end
 
-    def patch(calendar_id, event_id, patch_options = {})
+    def patch(calendar_id, event_id, **patch_options)
       call(:patch_event, calendar_id, event_id, patch_options, conference_data_version: 1)
     end
 
-    def update(calendar_id, event_id, event_options = {})
-      call(:update_event, calendar_id, event_id, event(event_options), conference_data_version: 1)
+    def update(calendar_id, event_id, **event_options)
+      call(:update_event, calendar_id, event_id, event(**event_options), conference_data_version: 1)
     end
 
     def delete(calendar_id, event_id)
@@ -85,21 +85,21 @@ class GoogleAPI
 
   private
 
-    def event(event_options, patch: false)
-      validate_keys(event_options, patch)
+    def event(patch = false, **event_options)
+      validate_keys(patch, **event_options)
 
-      event_options = format_dates(event_options)
-      event_options = format_conference_data(event_options)
+      event_options = format_dates(**event_options)
+      event_options = format_conference_data(**event_options)
 
-      Google::Apis::CalendarV3::Event.new(event_options.reject { |_, v| v.nil? })
+      Google::Apis::CalendarV3::Event.new(**event_options.reject { |_, v| v.nil? })
     end
 
-    def validate_keys(event_options, patch)
+    def validate_keys(patch = false, **event_options)
       event_options.assert_valid_keys(VALID_EVENT_KEYS) unless patch
       event_options.assert_valid_keys(VALID_PATCH_KEYS) if patch
     end
 
-    def format_dates(event_options)
+    def format_dates(**event_options)
       event_options[:start] = format_date(event_options[:start])
       event_options[:end] = format_date(event_options[:end])
       event_options

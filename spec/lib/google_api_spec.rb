@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe GoogleAPI do
   it 'sets the log level correctly' do
     expect { GoogleAPI.logging!(:FATAL) }.to(
-      change(Google::Apis.logger, :level).from(Logger::WARN).to(Logger::FATAL)
+      change(Google::Apis.logger, :level).from(Logger::INFO).to(Logger::FATAL)
     )
   end
 

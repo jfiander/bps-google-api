@@ -15,7 +15,7 @@ RSpec.describe GoogleAPI::Configured::Calendar::Event do
   let(:test_cal_id) { ENV['GOOGLE_CALENDAR_ID_TEST'] }
 
   subject do
-    event = GoogleAPI::Configured::Calendar.new(test_cal_id).create(test_event)
+    event = GoogleAPI::Configured::Calendar.new(test_cal_id).create(**test_event)
     GoogleAPI::Configured::Calendar::Event.new(test_cal_id, event.id)
   end
 
@@ -31,7 +31,7 @@ RSpec.describe GoogleAPI::Configured::Calendar::Event do
 
   it 'updates the event' do
     updated_test_event = test_event.merge(description: 'Updated.')
-    subject.update(updated_test_event)
+    subject.update(**updated_test_event)
 
     expect(subject.get.description).to eql('Updated.')
   end

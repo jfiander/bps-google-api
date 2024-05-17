@@ -78,7 +78,7 @@ RSpec.describe GoogleAPI::Calendar do
     end
 
     it 'returns the array of all events from list_all' do
-      subject.create(test_event) # Ensure at least one event exists
+      subject.create(**test_event) # Ensure at least one event exists
 
       expect(subject.list_all.map(&:class).uniq).to eql([Google::Apis::CalendarV3::Event])
     end
@@ -97,7 +97,7 @@ RSpec.describe GoogleAPI::Calendar do
         ]
       end
 
-      before { allow(calendar).to receive(:call).and_return(events) }
+      before { allow(calendar).to receive(:call).and_return(*events) }
 
       it 'returns the array of all events from list_all when paginated' do
         expect(calendar).to receive(:call).twice
@@ -107,18 +107,18 @@ RSpec.describe GoogleAPI::Calendar do
     end
 
     it 'creates an event' do
-      expect(subject.create(test_event)).to be_a(Google::Apis::CalendarV3::Event)
+      expect(subject.create(**test_event)).to be_a(Google::Apis::CalendarV3::Event)
     end
 
     describe 'conference data' do
       it 'creates an event with a new conference' do
         event = test_event.merge(conference: { id: :new })
 
-        expect(subject.create(event)).to be_a(Google::Apis::CalendarV3::Event)
+        expect(subject.create(**event)).to be_a(Google::Apis::CalendarV3::Event)
       end
 
       it 'creates an event with conference data', :aggregate_failures do
-        event = subject.create(test_event)
+        event = subject.create(**test_event)
         event = subject.add_conference(event.id)
         event_options = test_event.merge(
           conference: {
@@ -127,13 +127,13 @@ RSpec.describe GoogleAPI::Calendar do
           }
         )
 
-        event = subject.create(event_options)
+        event = subject.create(**event_options)
         expect(event).to be_a(Google::Apis::CalendarV3::Event)
         expect(event.conference_data).not_to be_nil
       end
 
       it 'returns valid conference information' do
-        event = subject.create(test_event)
+        event = subject.create(**test_event)
         event = subject.add_conference(event.id)
 
         expect(subject.conference_info(event.id)).to eql(
@@ -144,27 +144,27 @@ RSpec.describe GoogleAPI::Calendar do
     end
 
     it 'gets an event ' do
-      event = subject.create(test_event)
+      event = subject.create(**test_event)
       expect(subject.get(event.id)).to be_a(Google::Apis::CalendarV3::Event)
     end
 
     it 'patches an event' do
-      event = subject.create(test_event)
+      event = subject.create(**test_event)
       subject.patch(event.id, description: 'Patched.')
 
       expect(subject.get(event.id).description).to eql('Patched.')
     end
 
     it 'updates an event' do
-      event = subject.create(test_event)
+      event = subject.create(**test_event)
       updated_test_event = test_event.merge(description: 'Updated.')
-      subject.update(event.id, updated_test_event)
+      subject.update(event.id, **updated_test_event)
 
       expect(subject.get(event.id).description).to eql('Updated.')
     end
 
     it 'deletes an event' do
-      event = subject.create(test_event)
+      event = subject.create(**test_event)
 
       expect(subject.delete(event.id)).to eql('')
     end
@@ -187,7 +187,7 @@ RSpec.describe GoogleAPI::Calendar do
       end
 
       it 'does not raise any errors with verbose' do
-        subject.create(test_event)
+        subject.create(**test_event)
 
         silently do
           expect do
@@ -198,7 +198,7 @@ RSpec.describe GoogleAPI::Calendar do
     end
 
     it 'adds conference data' do
-      event = subject.create(test_event)
+      event = subject.create(**test_event)
 
       expect(subject.add_conference(event.id)).to be_a(Google::Apis::CalendarV3::Event)
     end

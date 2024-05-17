@@ -21,20 +21,20 @@ class GoogleAPI
         self.class.api.list_all(calendar_id)
       end
 
-      def create(event_options = {})
-        self.class.api.create(calendar_id, event_options)
+      def create(**event_options)
+        self.class.api.create(calendar_id, **event_options)
       end
 
       def get(event_id)
         self.class.api.get(calendar_id, event_id)
       end
 
-      def patch(event_id, event_options = {})
-        self.class.api.patch(calendar_id, event_id, event_options)
+      def patch(event_id, **event_options)
+        self.class.api.patch(calendar_id, event_id, **event_options)
       end
 
-      def update(event_id, event_options = {})
-        self.class.api.update(calendar_id, event_id, event_options)
+      def update(event_id, **event_options)
+        self.class.api.update(calendar_id, event_id, **event_options)
       end
 
       def delete(event_id)
