@@ -9,6 +9,7 @@ SimpleCov.start do
 end
 SimpleCov.minimum_coverage(100)
 
+require 'dotenv/load'
 require 'google_api'
 
 def silently
