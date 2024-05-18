@@ -1,3 +1,7 @@
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
 Metrics/LineLength:
   Max: 100
 Metrics/BlockLength:

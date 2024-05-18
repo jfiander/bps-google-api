@@ -108,7 +108,7 @@ class GoogleAPI
     def format_date(date)
       return date if date.is_a?(Google::Apis::CalendarV3::EventDateTime)
 
-      key = date&.is_a?(String) ? :date : :date_time
+      key = date.is_a?(String) ? :date : :date_time
       Google::Apis::CalendarV3::EventDateTime.new(key => date, time_zone: ENV['TZ'])
     end
 

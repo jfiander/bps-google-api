@@ -1,21 +1,22 @@
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 3.0
   Exclude:
     - bin/**/*
     - config/**/*
     - db/**/*
     - vendor/**/*
     - tmp/**/*
+  NewCops: enable
 
-Layout/IndentFirstHashElement:
+Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
-Layout/AlignArray:
+Layout/ArrayAlignment:
   Enabled: true
-Layout/AlignHash:
+Layout/HashAlignment:
   Enabled: true
 Layout/EmptyLineAfterGuardClause:
   Enabled: true
@@ -52,7 +53,7 @@ Metrics/AbcSize:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 
 Style/Documentation:
@@ -69,6 +70,8 @@ Style/ClassCheck:
   Enabled: true
 Style/GuardClause:
   Enabled: true
+Style/OptionalBooleanParameter:
+  Enabled: false
 
 Security/Eval:
   Enabled: true
