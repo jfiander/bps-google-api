@@ -52,7 +52,7 @@ GEM
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
     httpclient (2.8.3)
-    json (2.18.1)
+    json (2.19.2)
     jwt (2.8.1)
       base64
     logger (1.7.0)
